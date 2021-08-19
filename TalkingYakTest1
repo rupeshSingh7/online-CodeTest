@@ -1,0 +1,52 @@
+import java.lang.Exception
+
+/**
+ * Created By Rupesh Kumar Singh
+ */
+fun main(){
+    //declaration of variable
+    var readward: List<String> = ArrayList<String>()
+    var readRobotPosition: List<String> = ArrayList<String>()
+    var readInstruction: List<String> = ArrayList<String>()
+    //take input from controler
+    try {
+        readward = readLine()?.split(" ")!!
+        readRobotPosition = readLine()?.split(" ")!!
+        readInstruction = readLine()?.split("")!!
+    }catch (e: Exception){
+        println("InPut Formate Exception")
+        println(e.printStackTrace())
+        return
+    }
+    //assign current robot coordinate point and face direction
+    val wardFloorCordinate = Pair<Int,Int>(readward[0].toInt(),readward[1].toInt())
+    var currentRobotCordinate = Pair<Int,Int>(readRobotPosition[0].toInt(),readRobotPosition[1].toInt())
+    var robotFace = readRobotPosition[2]
+    val direction = arrayOf("E","N","W","S")
+    var pos = direction.indexOf(robotFace) + 1
+    //move robot according to Instruction
+    for (streamLater in readInstruction){
+        if (streamLater == "L"){
+            pos += 1
+        }else if (streamLater == "R"){
+            pos -= 1
+        }
+        if (pos < 1){
+            pos = 4
+        }
+        if (pos > 4){
+            pos = 1
+        }
+        robotFace = direction[pos-1]
+        if (streamLater == "M"){
+            when(robotFace){
+                "E" -> currentRobotCordinate = (currentRobotCordinate.first + 1) to (currentRobotCordinate.second)
+                "N" -> currentRobotCordinate = (currentRobotCordinate.first ) to (currentRobotCordinate.second + 1)
+                "W" -> currentRobotCordinate = (currentRobotCordinate.first - 1) to (currentRobotCordinate.second)
+                "S" -> currentRobotCordinate = (currentRobotCordinate.first ) to (currentRobotCordinate.second -1)
+            }
+        }
+
+    }
+    println("${currentRobotCordinate.first} ${currentRobotCordinate.second} $robotFace")
+}
